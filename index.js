@@ -73,6 +73,19 @@ app.put("/api/genres/:id", (req, res) => {
     res.send(genre);
 });
 
+//** Delete Request for server */
+app.delete("/api/genres/:id", (req, res) => {
+    // find the genre by its id and delete it
+    const genre = genres.find((g) => g.id == req.params.id);
+    if (!genre) {
+        return res.status(404).send("The genre with given ID was not found.");
+    }
+    // splice out the item that matches the id from array
+    const index = genres.indexOf(genre);
+    genres.splice(index, 1);
+    res.send(`The genre ${genre.name} has been deleted.`);
+});
+
 //** App Listening Port */
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`app Loading on Port ${port} ...!`));
