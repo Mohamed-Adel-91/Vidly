@@ -58,6 +58,21 @@ app.post("/api/genres", (req, res) => {
     res.send(genres);
 });
 
+//** Put Request for server */
+app.put("/api/genres/:id", (req, res) => {
+    // find the genre by its id and update it
+    const genre = genres.find((g) => g.id == req.params.id);
+    if (!genre) {
+        return res.status(404).send("The genre with given ID was not found.");
+    }
+    //checking errors with validating request
+    const { error } = validateRequest(req.body, genre);
+    if (error) return res.status(400).send(error.details[0].message);
+    //update the fields of the found object
+    genre.name = req.body.name || genre.name;
+    res.send(genre);
+});
+
 //** App Listening Port */
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`app Loading on Port ${port} ...!`));
