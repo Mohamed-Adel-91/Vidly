@@ -1,13 +1,15 @@
+const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 const Joi = require("joi");
 
-// small array simulate database
-const genres = [
-    { id: 1, name: "Action" },
-    { id: 2, name: "Comedy" },
-    { id: 3, name: "Horror" },
-];
+// create schema for the database
+const genreSchema = new mongoose.Schema({
+    name: { type: String, required: true, minLength: 5, maxLength: 50 },
+});
+
+// model of the data base with the schema
+const Genre = mongoose.model("Genre", genreSchema);
 
 // validation requests function
 function validateRequest(genre) {
@@ -18,9 +20,10 @@ function validateRequest(genre) {
 }
 
 //** Get Request for server */
-//get all genres
-router.get("/", (req, res) => {
-    res.send({ data: genres });
+//get all genres from database
+router.get("/", async (req, res) => {
+    const genres = await Genre.find().sort("name");
+    res.send(genres);
 });
 //get genres with givin id
 router.get("/:id", (req, res) => {

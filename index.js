@@ -1,8 +1,15 @@
 // import modules
+const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
 const home = require("./routes/home");
 const genres = require("./routes/genres");
+
+// connecting mongodb
+mongoose
+    .connect(process.env.MONGODB_URI || "mongodb://localhost/vidly")
+    .then(() => console.log("Connecting to the Database ...!!"))
+    .catch((err) => console.log(err));
 
 //use modules
 app.use(express.json());
