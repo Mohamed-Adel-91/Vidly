@@ -11,6 +11,22 @@ const genreSchema = new mongoose.Schema({
 // model of the data base with the schema
 const Genre = mongoose.model("Genre", genreSchema);
 
+// validation requests function
+// Define the validation schema
+const schema = Joi.object({
+    name: Joi.string().min(3).required(),
+});
+
+// Asynchronous validation function using async/await
+async function validateRequest(genre) {
+    try {
+        await schema.validate(genre); // Await validation result
+        return genre; // Validation successful, return the validated genre object
+    } catch (error) {
+        throw new Error(error.details[0].message); // Handle validation error and throw a descriptive error
+    }
+}
+
 //** Get Request for server */
 //get all genres from database
 router.get("/", async (req, res) => {
@@ -80,21 +96,5 @@ router.delete("/:id", async (req, res) => {
         ); // Handle unexpected errors gracefully
     }
 });
-
-// validation requests function
-// Define the validation schema
-const schema = Joi.object({
-    name: Joi.string().min(3).required(),
-});
-
-// Asynchronous validation function using async/await
-async function validateRequest(genre) {
-    try {
-        await schema.validate(genre); // Await validation result
-        return genre; // Validation successful, return the validated genre object
-    } catch (error) {
-        throw new Error(error.details[0].message); // Handle validation error and throw a descriptive error
-    }
-}
 
 module.exports = router;

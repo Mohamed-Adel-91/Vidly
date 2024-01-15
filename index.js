@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const home = require("./routes/home");
 const genres = require("./routes/genres");
+const costumers = require("./routes/customers");
 
 // connecting mongodb
 mongoose
@@ -15,6 +16,7 @@ mongoose
 app.use(express.json());
 app.use("/", home);
 app.use("/api/genres", genres);
+app.use("/api/customers", costumers);
 
 //** App Listening Port */
 const port = process.env.PORT || 3000;
