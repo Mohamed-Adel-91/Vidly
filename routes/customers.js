@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 const express = require("express");
-const boolean = require("joi/lib/types/boolean");
 const router = express.Router();
 
 const customerSchema = new mongoose.Schema({
@@ -33,27 +32,45 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const { error } = validationRequest(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-    let customer = new Customer({
-        name: req.body.name,
-        phone: req.body.phone,
-        isGold: req.body.isGold,
-    });
-    customer = await customer.save();
-    res.send(customer);
+    try {
+        const { error } = validationRequest(req.body);
+        if (error)
+            throw new Error(error.details.map((e) => e.message).join(", "));
+
+        let customer = new Customer({
+            name: req.body.name,
+            phone: req.body.phone,
+            isGold: req.body.isGold,
+        });
+
+        customer = await customer.save();
+        res.send(customer);
+    } catch (error) {
+        res.status(400).send(`Validation Error: ${error.message}`);
+    }
 });
 
 router.put("/:id", async (req, res) => {
-    const { error } = validationRequest(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-    const customer = await Customer.findByIdAndUpdate(
-        req.params.id,
-        { name: req.body.name, phone: req.body.phone, isGold: req.body.isGold },
-        { new: true }
-    );
-    if (!customer) return res.status(404).send("Customer not found");
-    res.send(customer);
+    try {
+        const { error } = validationRequest(req.body);
+        if (error)
+            throw new Error(error.details.map((e) => e.message).join(", "));
+
+        const customer = await Customer.findByIdAndUpdate(
+            req.params.id,
+            {
+                name: req.body.name,
+                phone: req.body.phone,
+                isGold: req.body.isGold,
+            },
+            { new: true }
+        );
+
+        if (!customer) return res.status(404).send("Customer not found");
+        res.send(customer);
+    } catch (error) {
+        res.status(400).send(`Validation Error: ${error.message}`);
+    }
 });
 
 router.delete("/:id", async (req, res) => {
@@ -63,15 +80,15 @@ router.delete("/:id", async (req, res) => {
         if (!customer) {
             return res
                 .status(404)
-                .send("The costumer with given ID was not found.");
+                .send("The customer with the given ID was not found.");
         }
 
         res.send(`The customer ${customer.name} has been deleted.`);
     } catch (error) {
-        console.error(error); // Log any unexpected errors
+        console.error(error);
         res.status(500).send(
-            `Server error , The customer with given ID was wrong you cant type id as : " ${req.params.id} " please complete your id you want to remove`
-        ); // Handle unexpected errors gracefully
+            `Server error, the customer with the given ID is invalid. Please provide a valid ID.`
+        );
     }
 });
 
@@ -80,12 +97,13 @@ const schema = Joi.object({
     phone: Joi.string().min(5).max(50).required(),
     isGold: Joi.boolean(),
 });
-async function validationRequest(costumer) {
+
+async function validationRequest(customer) {
     try {
-        await schema.validate(costumer);
-        return costumer;
+        await schema.validate(customer);
+        return customer;
     } catch (error) {
-        throw new Error(error.details[0].message);
+        throw new Error(error.details.map((e) => e.message).join(", "));
     }
 }
 
