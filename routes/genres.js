@@ -1,31 +1,6 @@
-const Joi = require("joi");
-const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
-
-// create schema for the database
-const genreSchema = new mongoose.Schema({
-    name: { type: String, required: true, minLength: 5, maxLength: 50 },
-});
-
-// model of the data base with the schema
-const Genre = mongoose.model("Genre", genreSchema);
-
-// validation requests function
-// Define the validation schema
-const schema = Joi.object({
-    name: Joi.string().min(3).required(),
-});
-
-// Asynchronous validation function using async/await
-async function validateRequest(genre) {
-    try {
-        await schema.validate(genre); // Await validation result
-        return genre; // Validation successful, return the validated genre object
-    } catch (error) {
-        throw new Error(error.details[0].message); // Handle validation error and throw a descriptive error
-    }
-}
+const { Genre, validateGenre } = require("../models/genre");
 
 //** Get Request for server */
 //get all genres from database
@@ -47,7 +22,7 @@ router.get("/:id", async (req, res) => {
 //** Post Request for server */
 router.post("/", async (req, res) => {
     // check error with validation  function
-    const { error } = validateRequest(req.body);
+    const { error } = validateGenre(req.body);
     // if catch error send bad req 404
     if (error) return res.status(400).send(error.details[0].message);
     // add data from req.body to array database after map on id's we have in database
@@ -62,7 +37,7 @@ router.post("/", async (req, res) => {
 //** Put Request for server */
 router.put("/:id", async (req, res) => {
     //checking errors with validating request
-    const { error } = validateRequest(req.body);
+    const { error } = validateGenre(req.body);
     if (error) return res.status(400).send(error.details[0].message);
     // find the genre by its id and update it
     const genre = await Genre.findByIdAndUpdate(
