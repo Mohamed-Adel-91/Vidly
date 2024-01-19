@@ -32,7 +32,6 @@ const Movie = mongoose.model("Movie", movieSchema);
 
 const schema = Joi.object({
     title: Joi.string().min(5).max(255).required(),
-    // genre: Joi.object(Joi.ref("genre").required()), //  this is how you can reference another model's Schema in a field of this model
     genreId: Joi.string().required(),
     numberInStock: Joi.number().min(0).required(),
     dailyRentalRate: Joi.number().min(0).required(),

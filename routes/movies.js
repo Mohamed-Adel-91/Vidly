@@ -1,10 +1,10 @@
-const { Movie, validationMovie } = require("../models/movies");
+const { Movie, validationMovie } = require("../models/movie");
 const { Genre } = require("../models/genre");
 const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-    const movies = await Movie.find().sort("name");
+    const movies = await Movie.find().sort("title");
     res.send(movies);
 });
 

@@ -16,7 +16,7 @@ const customerSchema = new mongoose.Schema({
     },
 });
 
-const Customer = mongoose.model("Costumer", customerSchema);
+const Customer = mongoose.model("Customer", customerSchema);
 
 const schema = Joi.object({
     name: Joi.string().min(5).max(50).required(),

@@ -6,6 +6,7 @@ const home = require("./routes/home");
 const genres = require("./routes/genres");
 const costumers = require("./routes/customers");
 const movies = require("./routes/movies");
+const rental = require("./routes/rentals");
 
 // connecting mongodb
 mongoose
@@ -19,6 +20,7 @@ app.use("/", home);
 app.use("/api/genres", genres);
 app.use("/api/customers", costumers);
 app.use("/api/movies", movies);
+app.use("/api/rentals", rental);
 
 //** App Listening Port */
 const port = process.env.PORT || 3000;
