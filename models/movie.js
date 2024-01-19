@@ -14,15 +14,17 @@ const movieSchema = new mongoose.Schema({
         type: genreSchema,
         required: true,
     },
-    numberInStack: {
+    numberInStock: {
         type: Number,
         require: true,
+        default: 0,
         min: 0,
         max: 255,
     },
     dailyRentalRate: {
         type: Number,
         require: true,
+        default: 0,
         min: 0,
         max: 255,
     },
