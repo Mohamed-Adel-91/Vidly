@@ -2,11 +2,11 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
-const home = require("./routes/home");
-const genres = require("./routes/genres");
-const costumers = require("./routes/customers");
-const movies = require("./routes/movies");
-const rental = require("./routes/rentals");
+const home = require("./routes/home.router");
+const genres = require("./routes/genres.router");
+const costumers = require("./routes/customers.router");
+const movies = require("./routes/movies.router");
+const rental = require("./routes/rentals.router");
 
 // connecting mongodb
 mongoose

@@ -1,5 +1,5 @@
-const { Movie, validationMovie } = require("../models/movie");
-const { Genre } = require("../models/genre");
+const { Movie, validationMovie } = require("../models/movie.schema");
+const { Genre } = require("../models/genre.schema");
 const express = require("express");
 const router = express.Router();
 

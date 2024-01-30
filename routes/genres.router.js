@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Genre, validateGenre } = require("../models/genre");
+const { Genre, validateGenre } = require("../models/genre.schema");
 
 //** Get Request for server */
 //get all genres from database

@@ -1,7 +1,7 @@
 const express = require("express");
-const { Rental, validationRental } = require("../models/rental");
-const { Movie } = require("../models/movie");
-const { Customer } = require("../models/customer");
+const { Rental, validationRental } = require("../models/rental.schema");
+const { Movie } = require("../models/movie.schema");
+const { Customer } = require("../models/customer.schema");
 const router = express.Router();
 
 // Get all rental
