@@ -1,8 +1,12 @@
-const express = require("express");
 const { Rental, validationRental } = require("../models/rental.schema");
 const { Movie } = require("../models/movie.schema");
 const { Customer } = require("../models/customer.schema");
+const express = require("express");
 const router = express.Router();
+// const mongoose = require("mongoose");
+// const Fawn = require("fawn");
+
+// Fawn.init(mongoose);
 
 // Get all rental
 router.get("/", async (req, res) => {
@@ -48,11 +52,25 @@ router.post("/", async (req, res) => {
                 dailyRentalRate: movie.dailyRentalRate,
             },
         });
-        rental = await rental.save();
+        // -->> Reduce the number of movies available by one
         rental = await Rental.findById(rental._id).populate("customer");
+        rental = await rental.save();
         movie.numberInStock--;
         await movie.save();
-        res.send(rental);
+        // -->> Reduce the number of movies available by one
+        // try {
+        //     new Fawn.Task()
+        //         .save("rentals", rental)
+        //         .update(
+        //             "movies",
+        //             { _id: movie._id },
+        //             { $inc: { numberInStock: -1 } }
+        //         )
+        //         .run();
+        //     res.send(rental);
+        // } catch (ex) {
+        //     res.status(500).send(`Server Error : ${ex}`);
+        // }
     } catch (error) {
         res.status(400).send(`Validation Error: ${error.message}`);
     }

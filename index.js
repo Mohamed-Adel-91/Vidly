@@ -12,7 +12,7 @@ const rental = require("./routes/rentals.router");
 mongoose
     .connect(process.env.MONGODB_URI || "mongodb://localhost/vidly")
     .then(() => console.log("Connecting to the Database ...!!"))
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err.message));
 
 //use modules
 app.use(express.json());
