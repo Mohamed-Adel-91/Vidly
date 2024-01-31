@@ -60,8 +60,8 @@ const schema = Joi.object({
 
 async function validationRental(rental) {
     try {
-        await schema.validate(rental);
-        return rental;
+        const validationResult = await schema.validateAsync(rental);
+        return validationResult;
     } catch (error) {
         throw new Error(error.details.map((e) => e.message).join(" , "));
     }
