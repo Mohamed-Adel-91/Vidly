@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+Joi.objectId = require("joi-objectid")(Joi);
 
 const rentalSchema = new mongoose.Schema({
     customer: {
@@ -54,17 +55,13 @@ const rentalSchema = new mongoose.Schema({
 const Rental = mongoose.model("Rental", rentalSchema);
 
 const schema = Joi.object({
-    customerId: Joi.string().required(),
-    movieId: Joi.string().required(),
+    customerId: Joi.objectId().required(),
+    movieId: Joi.objectId().required(),
 });
 
 async function validationRental(rental) {
-    try {
-        const validationResult = await schema.validateAsync(rental);
-        return validationResult;
-    } catch (error) {
-        throw new Error(error.details.map((e) => e.message).join(" , "));
-    }
+    const validationResult = await schema.validate(rental);
+    return { error: null, value: validationResult };
 }
 
 exports.Rental = Rental;

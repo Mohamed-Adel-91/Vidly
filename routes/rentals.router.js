@@ -26,9 +26,10 @@ router.get("/:id", async (req, res) => {
 // Create a new rental
 router.post("/", async (req, res) => {
     try {
-        const { error } = validationRental(req.body);
-        if (error)
-            throw new Error(error.details.map((e) => e.message).join(", "));
+        const { error, value } = validationRental(req.body);
+        if (error) {
+            return res.status(400).send(`Validation Error: ${error.message}`);
+        }
         const movie = await Movie.findById(req.body.movieId);
         if (!movie) return res.status(400).send("Invalid movie");
         const customer = await Customer.findById(req.body.customerId);
@@ -56,25 +57,7 @@ router.post("/", async (req, res) => {
         await movie.save();
         res.send(rental);
     } catch (error) {
-        res.status(400).send(`Validation Error: ${error.message}`);
+        res.status(500).send(`Server Error: ${error.message}`);
     }
 });
 module.exports = router;
-// -->> Reduce the number of movies available by one
-// const mongoose = require("mongoose");
-// const Fawn = require("fawn");
-
-// Fawn.init(mongoose);
-// try {
-//     new Fawn.Task()
-//         .save("rentals", rental)
-//         .update(
-//             "movies",
-//             { _id: movie._id },
-//             { $inc: { numberInStock: -1 } }
-//         )
-//         .run();
-//     res.send(rental);
-// } catch (ex) {
-//     res.status(500).send(`Server Error : ${ex}`);
-// }
