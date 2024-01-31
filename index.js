@@ -7,6 +7,8 @@ const genres = require("./routes/genres.router");
 const costumers = require("./routes/customers.router");
 const movies = require("./routes/movies.router");
 const rental = require("./routes/rentals.router");
+const Joi = require("joi");
+Joi.objectId = require("joi-objectid")(Joi);
 
 // connecting mongodb
 mongoose
