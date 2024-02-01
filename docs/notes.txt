@@ -1,0 +1,23 @@
+## Authentications 
+//==============
+here we sent username  and password from .env file to the server to Authenticate  user.
+
+## Authorization
+//============
+here we handling permission  for each route, if a user has permission to access this route or not.
+
+//===============================================================================
+##  match: /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/, // Use a regular expression for email validation
+//===============================================================================
+-->  last line means : 
+
+^ : Asserts the start of the string.
+[\w-]+ : Matches one or more word characters (alphanumeric + underscore) or hyphens. This is the username part of the email.
+(\.[\w-]+)* : Capturing group that matches a dot (.) followed by one or more word characters or hyphens. This group can repeat zero or more times, allowing for subdomains in the domain part of the email.
+@ : Matches the at symbol, separating the username from the domain.
+([\w-]+\.)+ : Capturing group that matches one or more occurrences of word characters or hyphens followed by a dot. This allows for the domain and subdomains.
+[a-zA-Z]{2,7} : Matches between 2 and 7 alphabetical characters. This is the top-level domain (TLD) part of the email, ensuring it consists of 2 to 7 letters.
+$ : Asserts the end of the string.
+This regular expression is a basic pattern for email validation. It checks for a username, an at symbol, and a domain with an optional subdomain.
+The TLD is restricted to between 2 and 7 alphabetical characters. Keep in mind that email validation using regex can be complex, and this pattern might not cover all edge cases.
+Depending on your specific requirements, you might need to adjust or use a more sophisticated email validation approach.
