@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const { User, validateUser } = require("../models/user.schema");
+const { User } = require("../../models/user.schema");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
+const Joi = require("joi");
 
 router.post("/", async (req, res) => {
     try {
         // check error with validation  function
-        const { error } = validateUser(req.body);
+        const { error } = validate(req.body);
         // If validation error, send a 400 Bad Request response with a custom error message
         if (error) {
             const errorMessage =
@@ -16,18 +17,36 @@ router.post("/", async (req, res) => {
             return res.status(400).send(errorMessage);
         }
         let user = await User.findOne({ email: req.body.email });
-        if (user) return res.status(400).send("Email already registered.");
-        // add data from req.body to array database after map on email we have in database
-        user = new User(_.pick(req.body, ["name", "email", "password"]));
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(user.password, salt);
-        user = await user.save();
-        // Send the created user document back as the response of this POST request
-        res.send(_.pick(user, ["_id", "name", "email"]));
+        if (!user) return res.status(400).send("Invalid Email or  Password.");
+
+        // Checking password is correct using bcrypt compareSync method
+        const validPassword = await bcrypt.compare(
+            req.body.password,
+            user.password
+        );
+        if (!validPassword)
+            return res.status(401).send("Invalid Email or Password.");
+
+        res.send(true);
+        // Create token and set it to the cookie of client side
     } catch (error) {
         // Handle other errors (e.g., database errors)
         res.status(500).send(`Internal Server Error : ${error.message}`);
     }
 });
+
+const schema = Joi.object({
+    email: Joi.string().min(5).max(50).email().required(),
+    password: Joi.string().min(8).max(1024).required(),
+});
+
+async function validate(req) {
+    try {
+        await schema.validate(req);
+        return req;
+    } catch (error) {
+        throw new Error(error.details.map((e) => e.message).join(", "));
+    }
+}
 
 module.exports = router;

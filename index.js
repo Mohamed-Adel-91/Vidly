@@ -26,7 +26,7 @@ app.use("/api/customers", costumers);
 app.use("/api/movies", movies);
 app.use("/api/rentals", rental);
 app.use("/api/users", users);
-app.use("/user/login", login);
+app.use("/api/users/login", login);
 
 //** App Listening Port */
 const port = process.env.PORT || 3000;
