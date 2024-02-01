@@ -8,6 +8,7 @@ const costumers = require("./routes/customers.router");
 const movies = require("./routes/movies.router");
 const rental = require("./routes/rentals.router");
 const users = require("./routes/users.router");
+const login = require("./routes/auth/login");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 
@@ -25,7 +26,7 @@ app.use("/api/customers", costumers);
 app.use("/api/movies", movies);
 app.use("/api/rentals", rental);
 app.use("/api/users", users);
-app.use("/user/login", users);
+app.use("/user/login", login);
 
 //** App Listening Port */
 const port = process.env.PORT || 3000;
