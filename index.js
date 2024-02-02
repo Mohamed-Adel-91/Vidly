@@ -11,6 +11,12 @@ const users = require("./routes/users.router");
 const login = require("./routes/auth/login");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
+const config = require("config");
+
+if (!config.get("jwtPrivetKey")) {
+    console.error("FATAL ERROR : jwtPrivateKey is not defined.");
+    process.exit(1);
+}
 
 // connecting mongodb
 mongoose

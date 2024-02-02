@@ -21,3 +21,7 @@ $ : Asserts the end of the string.
 This regular expression is a basic pattern for email validation. It checks for a username, an at symbol, and a domain with an optional subdomain.
 The TLD is restricted to between 2 and 7 alphabetical characters. Keep in mind that email validation using regex can be complex, and this pattern might not cover all edge cases.
 Depending on your specific requirements, you might need to adjust or use a more sophisticated email validation approach.
+
+//=============================================================================== 
+## when set env  variable in terminal  use following command :
+-->>  $env:vidly_jwtPrivetKey="mySecureKey"
