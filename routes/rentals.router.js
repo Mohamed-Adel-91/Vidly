@@ -3,9 +3,10 @@ const { Movie } = require("../models/movie.schema");
 const { Customer } = require("../models/customer.schema");
 const express = require("express");
 const router = express.Router();
+const auth = require("../middleware/auth");
 
 // Get all rental
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
     const rentals = await Rental.find().sort("-dateOut");
     res.send(rentals);
 });

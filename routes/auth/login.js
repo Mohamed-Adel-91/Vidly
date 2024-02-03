@@ -4,8 +4,6 @@ const { User } = require("../../models/user.schema");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
-const jwt = require("jsonwebtoken");
-const config = require("config");
 
 router.post("/", async (req, res) => {
     try {
@@ -29,7 +27,7 @@ router.post("/", async (req, res) => {
         if (!validPassword)
             return res.status(401).send("Invalid Email or Password.");
         // Create and assign a token for the user - Create token and set it to the cookie of client side
-        const token = jwt.sign({ _id: user._id }, config.get("jwtPrivetKey"));
+        const token = user.generateAuthToken();
         res.send(token);
     } catch (error) {
         // Handle other errors (e.g., database errors)

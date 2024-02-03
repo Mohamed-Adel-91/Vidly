@@ -3,8 +3,6 @@ const router = express.Router();
 const { User, validateUser } = require("../models/user.schema");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const config = require("config");
 
 router.post("/", async (req, res) => {
     try {
@@ -25,7 +23,7 @@ router.post("/", async (req, res) => {
         user.password = await bcrypt.hash(user.password, salt);
         user = await user.save();
         // Send the created user document back as the response of this POST request
-        const token = jwt.sign({ _id: user._id }, config.get("jwtPrivetKey"));
+        const token = user.generateAuthToken();
         res.header("x-auth-token", token).send(
             _.pick(user, ["_id", "name", "email"])
         );

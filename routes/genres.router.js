@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Genre, validateGenre } = require("../models/genre.schema");
+const auth = require("../middleware/auth");
 
 //** Get Request for server */
 //get all genres from database
@@ -20,7 +21,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //** Post Request for server */
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
     // check error with validation  function
     const { error } = validateGenre(req.body);
     // if catch error send bad req 404
@@ -35,7 +36,7 @@ router.post("/", async (req, res) => {
 });
 
 //** Put Request for server */
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
     //checking errors with validating request
     const { error } = validateGenre(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -53,7 +54,7 @@ router.put("/:id", async (req, res) => {
 });
 
 //** Delete Request for server */
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
     try {
         const genre = await Genre.findByIdAndDelete(req.params.id);
 
