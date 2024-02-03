@@ -3,6 +3,14 @@ const router = express.Router();
 const { User, validateUser } = require("../models/user.schema");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
+const auth = require("../middleware/auth");
+
+router.get("/me", auth, async (req, res) => {
+    let user = await User.findById(req.user._id).select("-password");
+    if (!user) return res.status(400).send("Invalid user");
+    res.send(user);
+    // res.send(_.omit(user.toJSON(), "password"));
+});
 
 router.post("/", async (req, res) => {
     try {
