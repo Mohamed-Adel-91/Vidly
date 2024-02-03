@@ -3,6 +3,7 @@ const { Genre } = require("../models/genre.schema");
 const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 
 router.get("/", async (req, res) => {
     const movies = await Movie.find().sort("title");
@@ -68,7 +69,7 @@ router.put("/:id", auth, async (req, res) => {
     }
 });
 
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
     try {
         const movie = await Movie.findByIdAndDelete(req.params.id);
 

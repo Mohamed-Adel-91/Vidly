@@ -17,9 +17,13 @@ const userSchema = new mongoose.Schema({
         match: /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/, // Use a regular expression for email validation
     },
     password: { type: String, required: true, minlength: 8, maxlength: 1024 },
+    isAdmin: Boolean,
 });
 userSchema.methods.generateAuthToken = function () {
-    const token = jwt.sign({ _id: this._id }, config.get("jwtPrivetKey"));
+    const token = jwt.sign(
+        { _id: this._id, isAdmin: this.isAdmin },
+        config.get("jwtPrivetKey")
+    );
     return token;
 };
 const User = mongoose.model("User", userSchema);

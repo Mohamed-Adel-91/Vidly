@@ -52,7 +52,7 @@ router.post("/", async (req, res) => {
             },
         });
         // -->> Reduce the number of movies available by one
-        // rental = await rental.findById(rental._id).populate("customers");
+        rental = await rental.findById(rental._id).populate("customers");
         rental = await rental.save();
         movie.numberInStock--;
         await movie.save();
