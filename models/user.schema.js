@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema({
     },
     password: { type: String, required: true, minlength: 8, maxlength: 1024 },
     isAdmin: Boolean,
+    role: [String],
+    operations: [String],
 });
 userSchema.methods.generateAuthToken = function () {
     const token = jwt.sign(
