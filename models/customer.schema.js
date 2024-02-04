@@ -29,7 +29,7 @@ async function validationCustomer(customer) {
         await schema.validate(customer);
         return customer;
     } catch (error) {
-        throw new Error(error.details.map((e) => e.message).join(", "));
+        throw new Error(error.map((e) => e.details[0].message).join(", "));
     }
 }
 

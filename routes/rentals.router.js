@@ -4,29 +4,33 @@ const { Customer } = require("../models/customer.schema");
 const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
+const asyncMiddleware = require("../middleware/asyncMiddleware");
 
 // Get all rental
-router.get("/", auth, async (req, res) => {
-    const rentals = await Rental.find().sort("-dateOut");
-    res.send(rentals);
-});
+router.get(
+    "/",
+    auth,
+    asyncMiddleware(async (req, res) => {
+        const rentals = await Rental.find().sort("-dateOut");
+        res.send(rentals);
+    })
+);
 
 // Get rental by id
-router.get("/:id", async (req, res) => {
-    try {
+router.get(
+    "/:id",
+    asyncMiddleware(async (req, res) => {
         const rental = await Rental.findById(req.params.id);
         if (!rental) return res.status(404).send("Rental not found.");
         // Send the request to the client
         res.send(rental);
-    } catch (err) {
-        console.log(err);
-        res.status(500).send("Server error.");
-    }
-});
+    })
+);
 
 // Create a new rental
-router.post("/", async (req, res) => {
-    try {
+router.post(
+    "/",
+    asyncMiddleware(async (req, res) => {
         const { error, value } = validationRental(req.body);
         if (error) {
             return res.status(400).send(`Validation Error: ${error.message}`);
@@ -37,7 +41,6 @@ router.post("/", async (req, res) => {
         if (!customer) return res.status(400).send("Invalid customer");
         if (movie.numberInStock === 0)
             return res.status(400).send("Movie not in stock");
-
         let rental = new Rental({
             customer: {
                 _id: customer._id,
@@ -52,13 +55,11 @@ router.post("/", async (req, res) => {
             },
         });
         // -->> Reduce the number of movies available by one
-        rental = await rental.findById(rental._id).populate("customers");
         rental = await rental.save();
         movie.numberInStock--;
         await movie.save();
+        rental = await Rental.findById(rental._id).populate("customer");
         res.send(rental);
-    } catch (error) {
-        res.status(500).send(`Server Error: ${error.message}`);
-    }
-});
+    })
+);
 module.exports = router;

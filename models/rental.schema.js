@@ -59,8 +59,12 @@ const schema = Joi.object({
 });
 
 async function validationRental(rental) {
-    const validationResult = await schema.validate(rental);
-    return { error: null, value: validationResult };
+    try {
+        const validationResult = await schema.validate(rental);
+        return { error: null, value: validationResult };
+    } catch (error) {
+        throw new Error(error.map((e) => e.details[0].message).join(", "));
+    }
 }
 
 exports.Rental = Rental;

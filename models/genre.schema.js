@@ -21,7 +21,8 @@ async function validateGenre(genre) {
         await schema.validate(genre); // Await validation result
         return genre; // Validation successful, return the validated genre object
     } catch (error) {
-        throw new Error(error.details[0].message); // Handle validation error and throw a descriptive error
+        // throw new Error(error.details[0].message); // Handle validation error and throw a descriptive error
+        throw new Error(error.map((e) => e.details[0].message).join(", "));
     }
 }
 

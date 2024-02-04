@@ -4,9 +4,11 @@ const { User } = require("../../models/user.schema");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
+const asyncMiddleware = require("../../middleware/asyncMiddleware");
 
-router.post("/", async (req, res) => {
-    try {
+router.post(
+    "/",
+    asyncMiddleware(async (req, res) => {
         // check error with validation  function
         const { error } = validate(req.body);
         // If validation error, send a 400 Bad Request response with a custom error message
@@ -29,11 +31,8 @@ router.post("/", async (req, res) => {
         // Create and assign a token for the user - Create token and set it to the cookie of client side
         const token = user.generateAuthToken();
         res.send(token);
-    } catch (error) {
-        // Handle other errors (e.g., database errors)
-        res.status(500).send(`Internal Server Error : ${error.message}`);
-    }
-});
+    })
+);
 
 const schema = Joi.object({
     email: Joi.string().min(5).max(50).email().required(),

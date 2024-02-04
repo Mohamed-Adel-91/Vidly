@@ -43,7 +43,7 @@ async function validateUser(user) {
         await schema.validate(user);
         return user;
     } catch (error) {
-        throw new Error(error.details.map((e) => e.message).join(", "));
+        throw new Error(error.map((e) => e.details[0].message).join(", "));
     }
 }
 
