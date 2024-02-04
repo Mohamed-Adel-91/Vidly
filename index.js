@@ -18,6 +18,11 @@ Joi.objectId = require("joi-objectid")(Joi);
 const config = require("config");
 const errorHandler = require("./middleware/error");
 
+process.on("uncaughtException", (ex) => {
+    console.log(`WE GOT AN Uncaught Exception: ${ex}`);
+    winston.error(ex.message, ex);
+});
+
 winston.add(
     new winston.transports.File({
         filename: "logFile.log",
@@ -31,6 +36,8 @@ winston.add(
         options: { useNewUrlParser: true, useUnifiedTopology: true },
     })
 );
+
+// throw new Error("hay something wrong");
 
 if (!config.get("jwtPrivetKey")) {
     console.error("FATAL ERROR : jwtPrivateKey is not defined.");
