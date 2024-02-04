@@ -1,6 +1,7 @@
 // import modules
 require("express-async-errors");
 const winston = require("winston");
+require("winston-mongodb");
 const { format } = require("winston");
 const mongoose = require("mongoose");
 const express = require("express");
@@ -21,6 +22,13 @@ winston.add(
     new winston.transports.File({
         filename: "logFile.log",
         format: format.combine(format.timestamp(), format.json()),
+    })
+);
+winston.add(
+    new winston.transports.MongoDB({
+        db: "mongodb://localhost/vidly",
+        level: "info",
+        options: { useNewUrlParser: true, useUnifiedTopology: true },
     })
 );
 
