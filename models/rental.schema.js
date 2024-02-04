@@ -58,13 +58,9 @@ const schema = Joi.object({
     movieId: Joi.objectId().required(),
 });
 
-async function validationRental(rental) {
-    try {
-        const validationResult = await schema.validate(rental);
-        return { error: null, value: validationResult };
-    } catch (error) {
-        throw new Error(error.map((e) => e.details[0].message).join(", "));
-    }
+function validationRental(rental) {
+    const validationResult = schema.validate(rental);
+    return { error: null, value: validationResult };
 }
 
 exports.Rental = Rental;

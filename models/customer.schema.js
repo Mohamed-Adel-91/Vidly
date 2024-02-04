@@ -24,13 +24,9 @@ const schema = Joi.object({
     isGold: Joi.boolean(),
 });
 
-async function validationCustomer(customer) {
-    try {
-        await schema.validate(customer);
-        return customer;
-    } catch (error) {
-        throw new Error(error.map((e) => e.details[0].message).join(", "));
-    }
+function validationCustomer(customer) {
+    schema.validate(customer);
+    return customer;
 }
 
 exports.Customer = Customer;

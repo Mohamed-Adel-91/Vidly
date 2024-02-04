@@ -38,13 +38,9 @@ const schema = Joi.object({
     password: Joi.string().min(8).max(1024).required(),
 });
 
-async function validateUser(user) {
-    try {
-        await schema.validate(user);
-        return user;
-    } catch (error) {
-        throw new Error(error.map((e) => e.details[0].message).join(", "));
-    }
+function validateUser(user) {
+    schema.validate(user);
+    return user;
 }
 
 exports.User = User;

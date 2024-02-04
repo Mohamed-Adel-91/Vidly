@@ -39,13 +39,9 @@ const schema = Joi.object({
     password: Joi.string().min(8).max(1024).required(),
 });
 
-async function validate(req) {
-    try {
-        await schema.validate(req);
-        return req;
-    } catch (error) {
-        throw new Error(error.details.map((e) => e.message).join(", "));
-    }
+function validate(req) {
+    schema.validate(req);
+    return req;
 }
 
 module.exports = router;

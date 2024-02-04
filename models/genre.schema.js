@@ -15,15 +15,10 @@ const schema = Joi.object({
     name: Joi.string().min(3).required(),
 });
 
-// Asynchronous validation function using async/await
-async function validateGenre(genre) {
-    try {
-        await schema.validate(genre); // Await validation result
-        return genre; // Validation successful, return the validated genre object
-    } catch (error) {
-        // throw new Error(error.details[0].message); // Handle validation error and throw a descriptive error
-        throw new Error(error.map((e) => e.details[0].message).join(", "));
-    }
+//  validation function
+function validateGenre(genre) {
+    schema.validate(genre);
+    return genre; // Validation successful, return the validated genre object
 }
 
 exports.Genre = Genre;

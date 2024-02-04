@@ -1,4 +1,5 @@
 // import modules
+require("express-async-errors");
 const mongoose = require("mongoose");
 const express = require("express");
 const app = express();

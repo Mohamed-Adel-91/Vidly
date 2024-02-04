@@ -40,13 +40,9 @@ const schema = Joi.object({
     dailyRentalRate: Joi.number().min(0).required(),
 });
 
-async function validationMovie(movie) {
-    try {
-        await schema.validate(movie);
-        return movie;
-    } catch (error) {
-        throw new Error(error.map((e) => e.details[0].message).join(", "));
-    }
+function validationMovie(movie) {
+    schema.validate(movie);
+    return movie;
 }
 
 exports.Movie = Movie;
