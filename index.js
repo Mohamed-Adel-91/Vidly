@@ -18,15 +18,25 @@ Joi.objectId = require("joi-objectid")(Joi);
 const config = require("config");
 const errorHandler = require("./middleware/error");
 
-process.on("uncaughtException", (ex) => {
-    console.log(`WE GOT AN Uncaught Exception: ${ex}`);
-    winston.error(ex.message, ex);
+// Add exception handler
+winston.exceptions.handle(
+    new winston.transports.File({
+        filename: "uncaughtException.log",
+        format: format.combine(format.timestamp(), format.json()),
+    })
+);
+
+// Add rejection handler
+process.on("unhandledRejection", (ex) => {
+    throw ex; // Let unhandled promise rejections crash the process
 });
 
 winston.add(
     new winston.transports.File({
         filename: "logFile.log",
         format: format.combine(format.timestamp(), format.json()),
+        handleExceptions: true,
+        handleRejections: true,
     })
 );
 winston.add(
@@ -37,7 +47,9 @@ winston.add(
     })
 );
 
-// throw new Error("hay something wrong");
+// const p = Promise.reject(new Error("hay something promise wrong"));
+// p.then(() => console.log("done"));
+// throw  new Error("This is a test error!");
 
 if (!config.get("jwtPrivetKey")) {
     console.error("FATAL ERROR : jwtPrivateKey is not defined.");
