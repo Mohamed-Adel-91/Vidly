@@ -4,7 +4,8 @@
   "description": "Back-End of vidly movies app",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll"
+    "test": "jest --watchAll --verbose",
+    "start" : "nodemon index.js"
   },
   "author": "Mohamed-Adel",
   "license": "ISC",
