@@ -89,3 +89,5 @@
 {"level":"info","message":"Connecting to the Database: mongodb://localhost/vidly_tests ....!!","timestamp":"2024-02-12T17:16:18.514Z"}
 {"level":"info","message":"app Loading on Port 3000 ...!","timestamp":"2024-02-12T17:21:12.995Z"}
 {"level":"info","message":"Connecting to the Database: mongodb://localhost/vidly_tests ....!!","timestamp":"2024-02-12T17:21:13.078Z"}
+{"level":"info","message":"app Loading on Port 3000 ...!","timestamp":"2024-02-12T17:22:11.299Z"}
+{"level":"info","message":"Connecting to the Database: mongodb://localhost/vidly_tests ....!!","timestamp":"2024-02-12T17:22:11.384Z"}
