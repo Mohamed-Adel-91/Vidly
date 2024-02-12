@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const router = express.Router();
 const { Genre, validateGenre } = require("../models/genre.schema");
 const auth = require("../middleware/auth");
@@ -18,8 +19,10 @@ router.get(
 router.get(
     "/:id",
     asyncMiddleware(async (req, res) => {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id))
+            return res.status(404).send("No valid object ID provided");
         //found genre id from givin params req
-        const genre = await genre.findById(req.params.id);
+        const genre = await Genre.findById(req.params.id);
         // handling error id req
         if (!genre)
             return res.status(404).send("The genre with givin ID is not found");
