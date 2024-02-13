@@ -67,5 +67,27 @@ describe("/api/genres", () => {
                 .send({ name: `${longString}` });
             expect(res.status).toBe(400);
         });
+
+        it("should save the genre if it is valid", async () => {
+            const token = new User().generateAuthToken();
+            const res = await request(server)
+                .post("/api/genres")
+                .set("x-auth-token", token)
+                .send({ name: "genre1" });
+            const genre = await Genre.findById(res.body._id);
+            expect(genre).not.toBeNull();
+            expect(res.body.name).toBe(genre.name);
+            expect(res.status).toEqual(200);
+        });
+
+        it("should return the genre if it is valid", async () => {
+            const token = new User().generateAuthToken();
+            const res = await request(server)
+                .post("/api/genres")
+                .set("x-auth-token", token)
+                .send({ name: "genre1" });
+            expect(res.body).toHaveProperty("_id");
+            expect(res.body).toHaveProperty("name");
+        });
     });
 });
