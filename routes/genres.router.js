@@ -36,17 +36,22 @@ router.post(
     "/",
     auth,
     asyncMiddleware(async (req, res) => {
-        // check error with validation  function
-        const { error } = validateGenre(req.body);
-        // if catch error send bad req 404
-        if (error) return res.status(400).send(error.details[0].message);
-        // add data from req.body to array database after map on id's we have in database
-        let genre = new Genre({
-            name: req.body.name,
-        });
-        genre = await genre.save();
-        // send data back to client
-        res.send(genre);
+        try {
+            // check error with validation function
+            validateGenre(req.body);
+
+            // add data from req.body to array database after map on id's we have in database
+            let genre = new Genre({
+                name: req.body.name,
+            });
+            genre = await genre.save();
+
+            // send data back to the client
+            res.send(genre);
+        } catch (error) {
+            // handle validation error
+            res.status(400).send(error.message);
+        }
     })
 );
 

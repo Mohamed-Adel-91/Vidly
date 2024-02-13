@@ -34,7 +34,7 @@ const User = mongoose.model("User", userSchema);
 
 const schema = Joi.object({
     name: Joi.string().min(5).max(50).required(),
-    email: Joi.string().min(5).max(50).email().required(),
+    email: Joi.string().min(5).max(255).email().required(),
     password: Joi.string().min(8).max(1024).required(),
 });
 

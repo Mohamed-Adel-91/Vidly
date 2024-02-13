@@ -12,12 +12,15 @@ const Genre = mongoose.model("Genre", genreSchema);
 // validation requests function
 // Define the validation schema
 const schema = Joi.object({
-    name: Joi.string().min(3).required(),
+    name: Joi.string().min(5).max(50).required(),
 });
 
 //  validation function
 function validateGenre(genre) {
-    schema.validate(genre);
+    const { error } = schema.validate(genre);
+    if (error) {
+        throw new Error(error.details[0].message);
+    }
     return genre; // Validation successful, return the validated genre object
 }
 
