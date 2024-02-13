@@ -5,6 +5,7 @@ const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const auth = require("../middleware/auth");
 const asyncMiddleware = require("../middleware/asyncMiddleware");
+const validateObjectId = require("../middleware/validateObjectId");
 
 router.get(
     "/me",

@@ -5,6 +5,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
 const asyncMiddleware = require("../middleware/asyncMiddleware");
+const validateObjectId = require("../middleware/validateObjectId");
 
 // Get all rental
 router.get(
@@ -19,6 +20,7 @@ router.get(
 // Get rental by id
 router.get(
     "/:id",
+    validateObjectId, //custom middleware to check if the given id is valid or not
     asyncMiddleware(async (req, res) => {
         const rental = await Rental.findById(req.params.id);
         if (!rental) return res.status(404).send("Rental not found.");

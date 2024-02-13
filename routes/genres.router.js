@@ -1,5 +1,6 @@
-const express = require("express");
+const validateObjectId = require("../middleware/validateObjectId");
 const mongoose = require("mongoose");
+const express = require("express");
 const router = express.Router();
 const { Genre, validateGenre } = require("../models/genre.schema");
 const auth = require("../middleware/auth");
@@ -18,9 +19,8 @@ router.get(
 //get genres with givin id
 router.get(
     "/:id",
+    validateObjectId, //custom middleware to check if the given id is valid or not
     asyncMiddleware(async (req, res) => {
-        if (!mongoose.Types.ObjectId.isValid(req.params.id))
-            return res.status(404).send("No valid object ID provided");
         //found genre id from givin params req
         const genre = await Genre.findById(req.params.id);
         // handling error id req
@@ -54,6 +54,7 @@ router.post(
 router.put(
     "/:id",
     auth,
+    validateObjectId, //custom middleware to check if the given id is valid or not
     asyncMiddleware(async (req, res) => {
         //checking errors with validating request
         const { error } = validateGenre(req.body);
@@ -77,6 +78,7 @@ router.put(
 //** Delete Request for server */
 router.delete(
     "/:id",
+    validateObjectId, //custom middleware to check if the given id is valid or not
     [auth, admin],
     asyncMiddleware(async (req, res) => {
         const genre = await Genre.findByIdAndDelete(req.params.id);
