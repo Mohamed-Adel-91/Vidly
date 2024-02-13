@@ -58,3 +58,9 @@ kinds of status  that can be send back with json web token module are as follows
 502 Bad Gateway: The server, while acting as a gateway or proxy, received an invalid response from the upstream server.
 503 Service Unavailable: The server is not ready to handle the request. Common causes are a server that is down for maintenance or is overloaded.
 --------------------------------------------------------------------------------
+
+
+/// now let's writing clean code tests with mosh method
+--------------------------------------------------------
+* Define the happy path, and then in each test , 
+we change one parameter that clearly aligns with the name of the test
