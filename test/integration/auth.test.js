@@ -1,5 +1,7 @@
 const { User } = require("../../models/user.schema");
 const request = require("supertest");
+const winston = require("winston");
+require("winston-mongodb");
 
 describe("auth middleware", () => {
     let server;
