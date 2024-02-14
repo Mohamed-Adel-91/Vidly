@@ -2,11 +2,29 @@ const { User } = require("../../models/user.schema");
 const request = require("supertest");
 
 describe("auth middleware", () => {
+    let server;
+    jest.mock("winston", () => {
+        return {
+            ...jest.requireActual("winston"),
+            transports: {
+                MongoDB: jest.fn().mockImplementation(() => {
+                    // Mock MongoDB transport
+                    return {
+                        on: jest.fn(),
+                    };
+                }),
+            },
+        };
+    });
     beforeEach(() => {
         server = require("../../index");
+        // Clear Winston transports before tests
+        winston.clear();
     });
-    afterEach(async () => {
+    afterEach(() => {
         server.close();
+        // Clear Winston transports after tests
+        winston.clear();
     });
     let token;
 

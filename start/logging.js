@@ -1,5 +1,6 @@
 const { format } = require("winston");
 const winston = require("winston");
+const config = require("config");
 require("winston-mongodb");
 require("express-async-errors");
 
@@ -9,6 +10,11 @@ module.exports = function () {
         new winston.transports.File({
             filename: "uncaughtException.log",
             format: format.combine(format.timestamp(), format.json()),
+        }),
+        new winston.transports.Console({
+            format: winston.format.simple(),
+            colorize: true,
+            prettyPrint: true,
         })
     );
 
@@ -25,9 +31,12 @@ module.exports = function () {
             handleRejections: true,
         })
     );
+
+    const db = config.get("db");
+
     winston.add(
         new winston.transports.MongoDB({
-            db: "mongodb://localhost/vidly",
+            db: db,
             level: "info",
             options: { useNewUrlParser: true, useUnifiedTopology: true },
         })
