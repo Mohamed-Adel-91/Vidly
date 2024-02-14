@@ -1,23 +1,9 @@
 const { User } = require("../../models/user.schema");
 const request = require("supertest");
 const winston = require("winston");
-require("winston-mongodb");
 
+let server;
 describe("auth middleware", () => {
-    let server;
-    jest.mock("winston", () => {
-        return {
-            ...jest.requireActual("winston"),
-            transports: {
-                MongoDB: jest.fn().mockImplementation(() => {
-                    // Mock MongoDB transport
-                    return {
-                        on: jest.fn(),
-                    };
-                }),
-            },
-        };
-    });
     beforeEach(() => {
         server = require("../../index");
         // Clear Winston transports before tests

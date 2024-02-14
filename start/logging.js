@@ -1,20 +1,19 @@
 const winston = require("winston");
 const { format } = winston;
-const config = require("config");
-require("winston-mongodb");
+// const config = require("config");
 require("express-async-errors");
 
 module.exports = function () {
     // Add exception handler
     winston.exceptions.handle(
-        new winston.transports.File({
-            filename: "uncaughtException.log",
-            format: format.combine(format.timestamp(), format.json()),
-        }),
         new winston.transports.Console({
             format: winston.format.simple(),
             colorize: true,
             prettyPrint: true,
+        }),
+        new winston.transports.File({
+            filename: "uncaughtException.log",
+            format: format.combine(format.timestamp(), format.json()),
         })
     );
 
@@ -32,20 +31,24 @@ module.exports = function () {
         })
     );
 
-    const db = config.get("db");
+    // const db = config.get("db");
 
-    winston.add(
-        new winston.transports.MongoDB({
-            db: db,
-            level: "info",
-            options: { useNewUrlParser: true, useUnifiedTopology: true },
-        })
-    );
-    winston.add(
-        new winston.transports.Console({
-            format: winston.format.simple(),
-            colorize: true,
-            prettyPrint: true,
-        })
-    );
+    // winston.add(
+    //     new winston.transports.MongoDB({
+    //         db: db,
+    //         level: "info",
+    //         options: { useNewUrlParser: true, useUnifiedTopology: true },
+    //     })
+    // );
+
+    // Add console transport for test environment
+    if (process.env.NODE_ENV === "test") {
+        winston.add(
+            new winston.transports.Console({
+                format: winston.format.simple(),
+                colorize: true,
+                prettyPrint: true,
+            })
+        );
+    }
 };
