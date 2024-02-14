@@ -4,7 +4,7 @@
   "description": "Back-End of vidly movies app",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll --verbose --detectOpenHandles",
+    "test": "jest --watchAll --verbose --coverage --detectOpenHandles",
     "start": "nodemon index.js"
   },
   "author": "Mohamed-Adel",

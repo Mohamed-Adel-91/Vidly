@@ -1,4 +1,5 @@
 const request = require("supertest");
+const mongoose = require("mongoose");
 const { Genre } = require("../../models/genre.schema");
 const { User } = require("../../models/user.schema");
 
@@ -35,8 +36,13 @@ describe("/api/genres", () => {
             expect(res.status).toBe(200);
             expect(res.body).toHaveProperty("name", genre.name);
         });
-        it("should return 404 if id is not found in database or invalid", async () => {
+        it("should return 404 if id invalid", async () => {
             const res = await request(server).get("/api/genres/1");
+            expect(res.status).toBe(404);
+        });
+        it("should return 404 if no genre with givin id", async () => {
+            const id = new mongoose.Types.ObjectId().toHexString();
+            const res = await request(server).get("/api/genres/" + id);
             expect(res.status).toBe(404);
         });
     });

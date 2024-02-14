@@ -12,7 +12,6 @@ function auth(req, res, next) {
             console.log("User is Authenticated");
             next();
         } catch (err) {
-            console.error(`Error in Authentication ${err.message}`);
             res.status(400).send("Token is not valid");
         }
     }
