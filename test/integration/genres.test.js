@@ -3,9 +3,8 @@ const mongoose = require("mongoose");
 const { Genre } = require("../../models/genre.schema");
 const { User } = require("../../models/user.schema");
 
-let server;
-
 describe("/api/genres", () => {
+    let server;
     beforeEach(() => {
         server = require("../../index");
     });

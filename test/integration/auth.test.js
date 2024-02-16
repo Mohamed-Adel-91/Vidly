@@ -3,17 +3,15 @@ const request = require("supertest");
 const winston = require("winston");
 const { Genre } = require("../../models/genre.schema");
 
-let server;
 describe("auth middleware", () => {
+    let server;
     beforeEach(() => {
         server = require("../../index");
-        // Clear Winston transports before tests
         winston.clear();
     });
     afterEach(async () => {
         await Genre.deleteMany({});
         server.close();
-        // Clear Winston transports after tests
         winston.clear();
     });
     let token;

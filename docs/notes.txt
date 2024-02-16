@@ -64,3 +64,18 @@ kinds of status  that can be send back with json web token module are as follows
 --------------------------------------------------------
 * Define the happy path, and then in each test , 
 we change one parameter that clearly aligns with the name of the test
+
+/// test cases for test driven development by jest
+-------------------------------------------------------
+
+- POST /api/returns {customerId, movieId}
+- Return 401 if client is not logged in
+- Return 400 if customerId is not provided
+- Return 400 if movieId is not provided
+- Return 404 if no rental found for this customer/movie
+- Return 400 if already renting this movie
+- If all checks pass, return 200 with the rental object if valid request
+- set the return date
+- Calculate the rental fees
+- Increase the stock
+- Return the rental
