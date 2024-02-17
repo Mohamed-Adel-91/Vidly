@@ -9,3 +9,5 @@ function asyncMiddleware(handler) {
 }
 
 module.exports = asyncMiddleware;
+
+// this middleware  is used to handle errors that happen in the downstream middlewares

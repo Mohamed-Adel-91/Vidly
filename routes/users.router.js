@@ -7,6 +7,7 @@ const auth = require("../middleware/auth");
 const asyncMiddleware = require("../middleware/asyncMiddleware");
 const validateObjectId = require("../middleware/validateObjectId");
 
+// get only user information who is logged in
 router.get(
     "/me",
     auth,
@@ -18,6 +19,7 @@ router.get(
     })
 );
 
+// create a new user
 router.post(
     "/",
     asyncMiddleware(async (req, res) => {

@@ -1,6 +1,7 @@
 const request = require("supertest");
 const mongoose = require("mongoose");
 const { Rental } = require("../../models/rental.schema");
+const { User } = require("../../models/user.schema");
 const { Customer } = require("../../models/customer.schema");
 const { Movie } = require("../../models/movie.schema");
 
@@ -32,17 +33,43 @@ describe("/api/returns", () => {
         await Rental.deleteMany({});
     });
 
-    describe("GET /api/rentals - Get all rentals", () => {
-        it("should return rental not to be null", async () => {
-            const result = await Rental.findById(rental._id);
-            expect(result).not.toBeNull();
+    it("should return rental not to be null", async () => {
+        const result = await Rental.findById(rental._id);
+        expect(result).not.toBeNull();
+    });
+    it("Return 401 if client is not logged in", async () => {
+        const res = await request(server).post("/api/returns").send({
+            customerId: customerId,
+            movieId: movieId,
         });
-        it("Return 401 if client is not logged in", async () => {
-            const res = await request(server).post("/api/returns").send({
-                customerId: customerId,
+        expect(res.status).toEqual(401);
+    });
+    it("Return 400 if customerId is not provided", async () => {
+        const token = new User().generateAuthToken();
+        const res = await request(server)
+            .post("/api/returns")
+            .set("x-auth-token", token)
+            .send({
                 movieId: movieId,
             });
-            expect(res.status).toEqual(401);
-        });
+        expect(res.status).toEqual(400);
+    });
+    it("Return 400 if movieId is not provided", async () => {
+        const token = new User().generateAuthToken();
+        const res = await request(server)
+            .post("/api/returns")
+            .set("x-auth-token", token)
+            .send({
+                customerId: customerId,
+            });
+        expect(res.status).toEqual(400);
+    });
+    it("Return 400 if no parameters in the body req", async () => {
+        const token = new User().generateAuthToken();
+        const res = await request(server)
+            .post("/api/returns")
+            .set("x-auth-token", token)
+            .send({});
+        expect(res.status).toEqual(400);
     });
 });

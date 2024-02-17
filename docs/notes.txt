@@ -72,6 +72,7 @@ we change one parameter that clearly aligns with the name of the test
 - Return 401 if client is not logged in
 - Return 400 if customerId is not provided
 - Return 400 if movieId is not provided
+- Return 400 if no parameters in the body req
 - Return 404 if no rental found for this customer/movie
 - Return 400 if already renting this movie
 - If all checks pass, return 200 with the rental object if valid request

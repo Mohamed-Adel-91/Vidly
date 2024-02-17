@@ -18,3 +18,5 @@ function auth(req, res, next) {
 }
 
 module.exports = auth;
+
+// this  middleware function will check for a token in the header of each request and verify it using our private
