@@ -10,7 +10,7 @@ const validateObjectId = require("../middleware/validateObjectId");
 // get only user information who is logged in
 router.get(
     "/me",
-    auth,
+    [auth, validateObjectId],
     asyncMiddleware(async (req, res) => {
         let user = await User.findById(req.user._id).select("-password");
         if (!user) return res.status(400).send("Invalid user");

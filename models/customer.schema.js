@@ -18,15 +18,15 @@ const customerSchema = new mongoose.Schema({
 
 const Customer = mongoose.model("Customer", customerSchema);
 
-const schema = Joi.object({
-    name: Joi.string().min(5).max(50).required(),
-    phone: Joi.string().min(5).max(50).required(),
-    isGold: Joi.boolean(),
-});
-
 function validationCustomer(customer) {
-    schema.validate(customer);
-    return customer;
+    const schema = Joi.object({
+        name: Joi.string().min(5).max(50).required(),
+        phone: Joi.string().min(5).max(50).required(),
+        isGold: Joi.boolean(),
+    });
+    const { error, value } = schema.validate(customer);
+    if (error) return { error };
+    return value;
 }
 
 exports.Customer = Customer;

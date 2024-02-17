@@ -42,8 +42,7 @@ router.post(
 
 router.put(
     "/:id",
-    auth,
-    validateObjectId, //custom middleware to check if the given id is valid or not
+    [auth, validateObjectId], //custom middleware to check if the given id is valid or not
     asyncMiddleware(async (req, res) => {
         const { error } = validationCustomer(req.body);
         if (error)
@@ -64,8 +63,7 @@ router.put(
 
 router.delete(
     "/:id",
-    [auth, admin],
-    validateObjectId, //custom middleware to check if the given id is valid or not
+    [auth, admin, validateObjectId], //custom middleware to check if the given id is valid or not
     asyncMiddleware(async (req, res) => {
         const customer = await Customer.findByIdAndDelete(req.params.id);
         if (!customer) {

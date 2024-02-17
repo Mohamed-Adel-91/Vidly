@@ -1,11 +1,13 @@
 const winston = require("winston");
 
-module.exports = function (err, req, res, next) {
+function error(err, req, res, next) {
     // log the exception
-    winston.error(err.message, err);
+    winston.error(err.details[0].message, err);
     //error - warn - info - verbose - debug - silly
-    console.log(err.message);
+    winston.info(err.details[0].message);
     res.status(500).send(`Internal Server Error Something  went wrong!`);
-};
+    next();
+}
 
+module.exports = error;
 // this middleware  will catch any errors that are not caught by other middlewares and handle them accordingly.

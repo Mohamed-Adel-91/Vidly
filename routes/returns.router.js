@@ -4,10 +4,10 @@ const { Rental } = require("../models/rental.schema");
 const { Movie } = require("../models/movie.schema");
 const auth = require("../middleware/auth");
 const moment = require("moment");
+const Joi = require("joi");
+const validate = require("../middleware/validate");
 
-router.post("/", auth, async (req, res) => {
-    if (!req.body.customerId || !req.body.movieId)
-        return res.status(400).send({ error: "Missing parameters" });
+router.post("/", [auth, validate(validationReturn)], async (req, res) => {
     const rental = await Rental.findOne({
         "customer._id": req.body.customerId,
         "movie._id": req.body.movieId,
@@ -27,6 +27,17 @@ router.post("/", auth, async (req, res) => {
 
     return res.status(200).send(rental);
 });
+
+function validationReturn(req) {
+    const schema = Joi.object({
+        customerId: Joi.string().length(24).required(),
+        movieId: Joi.string().length(24).required(),
+    });
+
+    const { error, value } = schema.validate(req);
+    if (error) return { error };
+    return value;
+}
 
 module.exports = router;
 // this route is for testing returns .

@@ -65,12 +65,12 @@ describe("/api/returns", () => {
         expect(res.status).toEqual(401);
     });
     it("Return 400 if customerId is not provided", async () => {
-        customerId = "";
+        customerId = null;
         const res = await executeCode();
         expect(res.status).toEqual(400);
     });
     it("Return 400 if movieId is not provided", async () => {
-        movieId = "";
+        movieId = null;
         const res = await executeCode();
         expect(res.status).toEqual(400);
     });
