@@ -7,11 +7,22 @@ const { Movie } = require("../../models/movie.schema");
 
 describe("/api/returns", () => {
     let server;
+    let token;
     let customerId;
     let movieId;
     let rental;
+    const executeCode = async () => {
+        return await request(server)
+            .post("/api/returns")
+            .set("x-auth-token", token)
+            .send({
+                customerId: customerId,
+                movieId: movieId,
+            });
+    };
     beforeEach(async () => {
         server = require("../../index");
+        token = new User().generateAuthToken();
         customerId = new mongoose.Types.ObjectId().toHexString();
         movieId = new mongoose.Types.ObjectId().toHexString();
         rental = new Rental({
@@ -38,38 +49,39 @@ describe("/api/returns", () => {
         expect(result).not.toBeNull();
     });
     it("Return 401 if client is not logged in", async () => {
-        const res = await request(server).post("/api/returns").send({
-            customerId: customerId,
-            movieId: movieId,
-        });
+        token = "";
+        const res = await executeCode();
         expect(res.status).toEqual(401);
     });
     it("Return 400 if customerId is not provided", async () => {
-        const token = new User().generateAuthToken();
-        const res = await request(server)
-            .post("/api/returns")
-            .set("x-auth-token", token)
-            .send({
-                movieId: movieId,
-            });
+        customerId = "";
+        const res = await executeCode();
         expect(res.status).toEqual(400);
     });
     it("Return 400 if movieId is not provided", async () => {
-        const token = new User().generateAuthToken();
-        const res = await request(server)
-            .post("/api/returns")
-            .set("x-auth-token", token)
-            .send({
-                customerId: customerId,
-            });
+        movieId = "";
+        const res = await executeCode();
         expect(res.status).toEqual(400);
     });
     it("Return 400 if no parameters in the body req", async () => {
-        const token = new User().generateAuthToken();
-        const res = await request(server)
-            .post("/api/returns")
-            .set("x-auth-token", token)
-            .send({});
+        movieId = null;
+        customerId = null;
+        const res = await executeCode();
         expect(res.status).toEqual(400);
+    });
+    it("Return 404 if no rental found for this customer/movie", async () => {
+        await Rental.deleteMany({});
+        const res = await executeCode();
+        expect(res.status).toEqual(404);
+    });
+    it("Return 400 if already renting this movie", async () => {
+        rental.dateReturned = new Date(); // set date returned as today so that the book can be rented again
+        await rental.save();
+        const res = await executeCode();
+        expect(res.status).toEqual(400);
+    });
+    it("If all checks pass, return 200 with the rental object if valid request", async () => {
+        const res = await executeCode();
+        expect(res.status).toEqual(200);
     });
 });
