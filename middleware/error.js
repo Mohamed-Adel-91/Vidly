@@ -2,9 +2,9 @@ const winston = require("winston");
 
 function error(err, req, res, next) {
     // log the exception
-    winston.error(err.details[0].message, err);
+    winston.error(err.message, err);
     //error - warn - info - verbose - debug - silly
-    winston.info(err.details[0].message);
+    winston.info(err.message);
     res.status(500).send(`Internal Server Error Something  went wrong!`);
     next();
 }

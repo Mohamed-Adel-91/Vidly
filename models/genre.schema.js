@@ -9,8 +9,6 @@ const genreSchema = new mongoose.Schema({
 // model of the data base with the schema
 const Genre = mongoose.model("Genre", genreSchema);
 
-// validation requests function
-
 //  validation function
 function validateGenre(genre) {
     // Define the validation schema
