@@ -9,7 +9,6 @@ function auth(req, res, next) {
         try {
             const decoded = jwt.verify(token, config.get("jwtPrivateKey"));
             req.user = decoded;
-            console.log("User is Authenticated");
             next();
         } catch (err) {
             res.status(400).send("Token is not valid");

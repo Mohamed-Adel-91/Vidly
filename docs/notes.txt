@@ -77,7 +77,7 @@ we change one parameter that clearly aligns with the name of the test
 - Return 400 if already renting this movie
 - If all checks pass, return 200 with the rental object if valid request
 - set the return date
-- Calculate the rental fees
+- Calculate the rental fees >> (numberOfDays * movie.dailyRentalRate)
 - Increase the stock
 - Return the rental
 
