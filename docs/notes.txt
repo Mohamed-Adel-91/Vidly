@@ -24,7 +24,7 @@ Depending on your specific requirements, you might need to adjust or use a more 
 
 //=============================================================================== 
 ## when set env  variable in terminal  use following command :
--->>  $env:vidly_jwtPrivetKey="mySecureKey"
+-->>  $env:vidly_jwtPrivateKey="jwtPrivateKeySecrets"
 
 //=============================================================================== 
 kinds of status  that can be send back with json web token module are as follows :
@@ -79,3 +79,21 @@ we change one parameter that clearly aligns with the name of the test
 - Calculate the rental fees
 - Increase the stock
 - Return the rental
+
+-----------------------------------
+this code made error when testing but its works with launching server 
+its responsible for handling error logs and write it in a file in the database
+------------------------------------->
+const winston = require("winston");
+const { format } = winston;
+const config = require("config");
+
+    // const db = config.get("db");
+
+    // winston.add(
+    //     new winston.transports.MongoDB({
+    //         db: db,
+    //         level: "info",
+    //         options: { useNewUrlParser: true, useUnifiedTopology: true },
+    //     })
+    // );

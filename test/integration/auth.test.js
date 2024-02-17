@@ -7,12 +7,10 @@ describe("auth middleware", () => {
     let server;
     beforeEach(() => {
         server = require("../../index");
-        winston.clear();
     });
     afterEach(async () => {
         await Genre.deleteMany({});
-        server.close();
-        winston.clear();
+        await server.close();
     });
     let token;
 

@@ -1,6 +1,5 @@
 const winston = require("winston");
 const { format } = winston;
-// const config = require("config");
 require("express-async-errors");
 
 module.exports = function () {
@@ -30,16 +29,6 @@ module.exports = function () {
             handleRejections: true,
         })
     );
-
-    // const db = config.get("db");
-
-    // winston.add(
-    //     new winston.transports.MongoDB({
-    //         db: db,
-    //         level: "info",
-    //         options: { useNewUrlParser: true, useUnifiedTopology: true },
-    //     })
-    // );
 
     // Add console transport for test environment
     if (process.env.NODE_ENV === "test") {
