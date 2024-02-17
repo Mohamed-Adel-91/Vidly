@@ -7,6 +7,7 @@ require("./start/routes")(app);
 require("./start/db")();
 require("./start/config")();
 require("./start/validation")();
+require("./start/production")(app);
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () =>
