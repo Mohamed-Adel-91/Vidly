@@ -5173,3 +5173,12 @@
 {"level":"info","message":"app Loading on Port 3000 ...!","timestamp":"2024-02-18T02:44:17.920Z"}
 {"level":"info","message":"Connected to the Database: mongodb://localhost/vidly_tests","timestamp":"2024-02-18T02:44:17.948Z"}
 {"level":"info","message":"Connecting to the Database: mongodb://localhost/vidly_tests ....!!","timestamp":"2024-02-18T02:44:17.958Z"}
+{"level":"info","message":"app Loading on Port 3000 ...!","timestamp":"2024-02-18T03:00:29.326Z"}
+{"level":"info","message":"Connected to the Database: mongodb://localhost/vidly","timestamp":"2024-02-18T03:00:29.342Z"}
+{"level":"info","message":"MongoDB Connection Closed due to process termination","timestamp":"2024-02-18T03:00:31.636Z"}
+{"level":"info","message":"app Loading on Port 3000 ...!","timestamp":"2024-02-18T03:00:45.638Z"}
+{"level":"info","message":"Connected to the Database: mongodb://localhost/vidly_tests","timestamp":"2024-02-18T03:00:45.677Z"}
+{"level":"info","message":"app Loading on Port 3000 ...!","timestamp":"2024-02-18T03:00:46.727Z"}
+{"level":"info","message":"Connected to the Database: mongodb://localhost/vidly_tests","timestamp":"2024-02-18T03:00:46.743Z"}
+{"level":"info","message":"app Loading on Port 3000 ...!","timestamp":"2024-02-18T03:00:47.640Z"}
+{"level":"info","message":"Connected to the Database: mongodb://localhost/vidly_tests","timestamp":"2024-02-18T03:00:47.670Z"}
