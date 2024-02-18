@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll --verbose --coverage --detectOpenHandles",
-    "start": "nodemon index.js"
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "20.10.0"
   },
   "author": "Mohamed-Adel",
   "license": "ISC",

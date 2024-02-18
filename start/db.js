@@ -7,7 +7,6 @@ module.exports = async function () {
     const db = config.get("db");
 
     mongoose.connect(db);
-    // .then(() => winston.info(`Connecting to the Database: ${db} ....!!`));
 
     const connection = mongoose.connection;
 
@@ -24,11 +23,8 @@ module.exports = async function () {
     });
 
     process.on("SIGINT", () => {
-        connection.close(() => {
-            winston.info(
-                "MongoDB Connection Closed due to process termination"
-            );
-            process.exit(0);
-        });
+        connection.close();
+        winston.info("MongoDB Connection Closed due to process termination");
+        process.exit(0);
     });
 };
