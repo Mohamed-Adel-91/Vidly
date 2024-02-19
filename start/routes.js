@@ -8,6 +8,8 @@ const users = require("../routes/users.router");
 const login = require("../routes/auth/login");
 const returns = require("../routes/returns.router");
 const express = require("express");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("../swagger.json");
 
 module.exports = function (app) {
     //use modules
@@ -21,4 +23,5 @@ module.exports = function (app) {
     app.use("/api/users/login", login);
     app.use("/api/returns", returns);
     app.use(errorHandler);
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 };

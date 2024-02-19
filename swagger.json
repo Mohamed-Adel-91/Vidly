@@ -1,0 +1,45 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Vidly API",
+    "description": "Vidly API for movies rental",
+    "license": {
+      "name": "Mohamed Adel",
+      "url": "https://vidly-app-24-3649c00ccbe9.herokuapp.com/"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/", 
+  "tags":[{
+    "name":"vidly",
+    "description":"Vidly API for movies rental"
+  }],
+  "schemes": ["http", "https"],
+  "consumes": [
+    "application/json"
+  ],
+  "produces":[
+    "application/json"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Get a friendly greeting",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
